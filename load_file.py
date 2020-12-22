@@ -1,7 +1,6 @@
 from tkinter import *
 from tkinter import filedialog
-import PyPDF2
-from tika import parser
+import PyPDF2 import PdfFileReader
 
 root = Tk()
 root.title('loudim jak pan')
@@ -20,7 +19,6 @@ def clear_text_box():
 def open_pdf():
     my_text.delete(1.0, END)
 
-    '''
     #grab the filename of the pdf file
     open_file = filedialog.askopenfilename(
             initialdir = "D:\Kódování\ebook-reader", 
@@ -28,18 +26,8 @@ def open_pdf():
             filetypes = (("pdf file", "*.pdf"), 
                         ("All files", "*.*"))
             )
-    '''
-
-    new_file = parser.from_file("D:\Kódování\ebook-reader\pdf3.pdf")
-    new_file = str(new_file)
-
-    safe_text = new_file.encode('utf-8', errors='ignore')
-    safe_text = str(safe_text).replace('\n', '').replace('\\', '')
-
-    my_text.insert(1.0, safe_text)
-
     
-    '''
+ 
     #check to see if there is a file
     if open_file:
         # open the pdf file
@@ -50,7 +38,7 @@ def open_pdf():
         page_stuff = page.extractText()
         # add text to text box
         my_text.insert(1.0, page_stuff)
-    '''
+    
 
     my_text.configure(state=DISABLED)
 
