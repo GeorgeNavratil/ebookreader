@@ -62,9 +62,12 @@ root.config(menu=my_menu)
 file_menu = Menu(my_menu, tearoff = False)
 my_menu.add_cascade(label="File", menu=file_menu)
 file_menu.add_command(label="Open file", command = open_pdf)
+
+#file_menu.add_command(label="Save file", command = save_file)
+#file_menu.add_command(label="Edit", command = edit)
+
 file_menu.add_command(label="Clear", command = clear_text_box)
 file_menu.add_command(label="Exit", command = root.quit)
-
 
 
 
