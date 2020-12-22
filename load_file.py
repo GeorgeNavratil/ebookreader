@@ -6,11 +6,12 @@ import os
 
 root = Tk()
 root.title('Ebook Reader')
-root.geometry("500x500")
+root.geometry("1000x700")
 
 #Create text box
-my_text = Text(root, height=30, width=60)
+my_text = Text(root, height=30, width=120)
 my_text.pack(pady=10)
+my_text.grid(row=0, column=0)
 
 #clear text box
 def clear_text_box():

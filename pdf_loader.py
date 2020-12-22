@@ -2,11 +2,12 @@
 #pip instal PyMuPDF
 
 import fitz
+import os
 
-pdf_document = "D:\Pragraming\pokusy na ebook\pdf4.pdf"
+pdf_document = os.getcwd() + '/ourfiletexts/pdf4.pdf'
 doc = fitz.open(pdf_document)
-print ("number of pages: %i" % doc.pageCount)
-print(doc.metadata)
+#print ("number of pages: %i" % doc.pageCount)
+#print(doc.metadata)
 
 page1 = doc.loadPage(0)
 page1text = page1.getText("text")
