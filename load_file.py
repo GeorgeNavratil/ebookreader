@@ -1,13 +1,14 @@
 from tkinter import *
 from tkinter import filedialog
-from PyPDF2 import PdfFileReader
+import PyPDF2 #import PdfFileReader
+import os
 
 root = Tk()
-root.title('loudim jak pan')
+root.title('Ebook Reader')
 root.geometry("500x500")
 
 #Create text box
-my_text = Text(root, height=50, width=60)
+my_text = Text(root, height=30, width=60)
 my_text.pack(pady=10)
 
 #clear text box
@@ -21,7 +22,7 @@ def open_pdf():
 
     #grab the filename of the pdf file
     open_file = filedialog.askopenfilename(
-            initialdir = "D:\Kódování\ebook-reader", 
+            initialdir = os.getcwd(), 
             title = "Open PDF file",
             filetypes = (("pdf file", "*.pdf"), 
                         ("All files", "*.*"))
