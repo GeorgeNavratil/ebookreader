@@ -1,6 +1,6 @@
 from tkinter import *
 from tkinter import filedialog
-import PyPDF2 import PdfFileReader
+from PyPDF2 import PdfFileReader
 
 root = Tk()
 root.title('loudim jak pan')
