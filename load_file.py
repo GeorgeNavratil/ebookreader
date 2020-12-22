@@ -1,6 +1,7 @@
 from tkinter import *
 from tkinter import filedialog
 import PyPDF2 #import PdfFileReader
+import fitz
 import os
 
 root = Tk()
@@ -18,7 +19,7 @@ def clear_text_box():
 
 #open pdf file
 def open_pdf():
-    my_text.delete(1.0, END)
+    clear_text_box()
 
     #grab the filename of the pdf file
     open_file = filedialog.askopenfilename(
@@ -28,7 +29,15 @@ def open_pdf():
                         ("All files", "*.*"))
             )
     
- 
+    doc = fitz.open(open_file)
+    #print ("number of pages: %i" % doc.pageCount)
+    #print(doc.metadata)
+
+    page1 = doc.loadPage(0)
+    page1text = page1.getText("text")
+    my_text.insert(1.0, page1text)
+
+    '''
     #check to see if there is a file
     if open_file:
         # open the pdf file
@@ -39,7 +48,7 @@ def open_pdf():
         page_stuff = page.extractText()
         # add text to text box
         my_text.insert(1.0, page_stuff)
-    
+    '''
 
     my_text.configure(state=DISABLED)
 
