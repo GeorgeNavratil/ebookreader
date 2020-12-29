@@ -8,7 +8,13 @@ root = Tk()
 root.title('Ebook Reader')
 root.geometry("1400x700")
 
-#page number init
+#inits
+button_forward = None
+button_back = None
+button_forward = Button()
+button_back = Button()
+page_label = Label()
+label_text = StringVar()
 page_number_label = 1
 
 #Create text box
@@ -18,12 +24,24 @@ my_text.grid(row=0, column=0, columnspan=7)
 
 #clear text box
 def clear_text_box():
+    global doc
+
+    doc = None
+
     my_text.configure(state=NORMAL)
     my_text.delete(1.0, END)
 
+    button_forward.destroy()
+    button_back.destroy()
+    page_label.destroy()
+
 #open pdf file
 def open_pdf():
-    clear_text_box()
+    global doc
+    global number_of_pages
+    global button_forward
+    global button_back
+    global page_label
 
     #grab the filename of the pdf file
     open_file = filedialog.askopenfilename(
@@ -33,13 +51,18 @@ def open_pdf():
                         ("All files", "*.*"))
             )
     
-    global doc
     doc = fitz.open(open_file)
     #print ("number of pages: %i" % doc.pageCount)
     #print(doc.metadata)
+    
+    number_of_pages = doc.pageCount
 
     page_content = doc.loadPage(0)
     page_text = page_content.getText("text")
+    
+    my_text.configure(state=NORMAL)
+    my_text.delete(1.0, END)
+
     my_text.insert(1.0, page_text)
 
     '''
@@ -74,13 +97,17 @@ def open_pdf():
     '''button_back.pack(pady=10)'''
     button_back.grid(row=2, column=1)
 
-
-def updateLabel(current_page):
-    number_of_pages = doc.pageCount
+    '''button_clear = Button(root, text="Delete button", height=1, width=10, command=lambda: button_back.destroy())
+    button_clear.grid(row=3, column=3)'''
     
     #page number
-    page_label = Label(text="Page: " + str(current_page) + "/" + str(number_of_pages))
+    page_label = Label(root, textvariable=label_text)
     page_label.grid(row=2, column=3)
+
+
+def updateLabel(current_page):
+    global label_text
+    label_text.set("Page: " + str(current_page) + "/" + str(number_of_pages))
 
 
 def forward(page_number):
@@ -98,12 +125,12 @@ def forward(page_number):
 
     my_text.configure(state=DISABLED)
 
-    button_forward = Button(root, text=">>", height=1, width=10, 
-                            command=lambda: forward(page_number+1))
-    button_back = Button(root, text="<<", height=1, width=10, 
-                            command=lambda: back(page_number-1))
-    
-    '''if'''
+    button_forward.configure(command=lambda: forward(page_number+1))
+    button_back.configure(command=lambda: back(page_number-1))
+    button_back.configure(state=NORMAL)
+
+    if page_number == number_of_pages-1:
+        button_forward.configure(state=DISABLED)
 
     button_forward.grid(row=2, column=5)
     button_back.grid(row=2, column=1)
@@ -126,12 +153,12 @@ def back(page_number):
 
     my_text.configure(state=DISABLED)
 
-    button_forward = Button(root, text=">>", height=1, width=10, 
-                            command=lambda: forward(page_number+1))
-    button_back = Button(root, text="<<", height=1, width=10, 
-                            command=lambda: back(page_number-1))
+    button_forward.configure(command=lambda: forward(page_number+1))
+    button_forward.configure(state=NORMAL)
+    button_back.configure(command=lambda: back(page_number-1))
     
-    '''if'''
+    if page_number == 0:
+        button_back.configure(state=DISABLED)
 
     button_forward.grid(row=2, column=5)
     button_back.grid(row=2, column=1)
@@ -147,13 +174,13 @@ root.config(menu=my_menu)
 #add dropdown menus
 file_menu = Menu(my_menu, tearoff = False)
 my_menu.add_cascade(label="File", menu=file_menu)
-file_menu.add_command(label="Open file", command = open_pdf)
+file_menu.add_command(label="Open file", command=open_pdf)
 
 '''file_menu.add_command(label="Save file", command = save_file)
 file_menu.add_command(label="Edit", command = edit)'''
 
-file_menu.add_command(label="Clear", command = clear_text_box)
-file_menu.add_command(label="Exit", command = root.quit)
+file_menu.add_command(label="Clear", command=clear_text_box)
+file_menu.add_command(label="Exit", command=root.quit)
 
 
 
