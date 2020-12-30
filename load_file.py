@@ -7,6 +7,8 @@ import os
 root = Tk()
 root.title('Ebook Reader')
 root.geometry("1400x700")
+root.grid_columnconfigure((0,1,2,3,4,5,6), weight=1)
+root.rowconfigure(0, weight=1)
 
 #inits
 button_forward = None
@@ -17,10 +19,9 @@ page_label = Label()
 label_text = StringVar()
 
 #Create text box
-my_text = Text(root, height=30, width=120)
+my_text = Text(root)
 my_text.pack(pady=10)
-my_text.grid(row=0, column=0, columnspan=7)
-
+my_text.grid(row=0, column=0, columnspan=7, sticky=W+E+S+N)
 
 
 #open pdf file
@@ -53,6 +54,8 @@ def openPdf():
     #indentation instead of .pack() which isnt working for some reason
     indentation_label = Label(text=" ")
     indentation_label.grid(row=1)
+    indentation_label = Label(text=" ")
+    indentation_label.grid(row=3)
 
     #reset page counter
     page_number_label = 1
@@ -61,10 +64,10 @@ def openPdf():
     updateLabel(page_number_label)
 
     #forward, back buttons
-    button_forward = Button(root, text=">>", height=1, width=10, command=lambda: forward(1))
+    button_forward = Button(root, text=">>", height=2, width=10, command=lambda: forward(1))
     button_forward.grid(row=2, column=5)
 
-    button_back = Button(root, text="<<", height=1, width=10, state=DISABLED)
+    button_back = Button(root, text="<<", height=2, width=10, state=DISABLED)
     button_back.grid(row=2, column=1)
 
     #page number
@@ -91,7 +94,22 @@ def clearTextBut():
 def editTextbox():
     global edit_text
     my_text.configure(state=NORMAL)
-     
+
+def saveThisFile():
+    created_file = filedialog.asksaveasfilename(
+                        defaultextension=".*", 
+                        initialdir=os.getcwd(),
+                        title = "Save file",
+                        filetypes = (("txt file", "*.txt"), 
+                                    ("All files", "*.*"))
+                    )
+    if created_file:
+        saved_file = open(created_file, 'w')
+        saved_file.write(my_text.get(1.0, END))
+
+        saved_file.close()
+
+
 
 def deleteTextboxContent():
     #set textbox to edit mode and delete content inside
@@ -165,11 +183,8 @@ def updateButtons(page_adder):
     button_forward.configure(state=NORMAL)
     button_back.configure(command=lambda: back(page_adder-1))
     button_back.configure(state=NORMAL)
-'''
-def saveThisFile():
 
-    .save("newfile.pdf")
-    '''
+
 
 #create menu
 my_menu = Menu(root)
@@ -180,7 +195,7 @@ file_menu = Menu(my_menu, tearoff = False)
 my_menu.add_cascade(label="File", menu=file_menu)
 file_menu.add_command(label="Open file", command=openPdf)
 
-'''file_menu.add_command(label="Save file", command = saveThisFile)'''
+file_menu.add_command(label="Save file", command = saveThisFile)
 
 file_menu.add_command(label="Edit", command=editTextbox)
 file_menu.add_command(label="Clear", command=clearTextBut)
