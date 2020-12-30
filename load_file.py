@@ -89,9 +89,9 @@ def clearTextBut():
 #allows to edit currently opened page 
 #(disables after clicking next or previouos page and doesnt save changes)
 def editTextbox():
+    global edit_text
     my_text.configure(state=NORMAL)
-
-
+     
 
 def deleteTextboxContent():
     #set textbox to edit mode and delete content inside
@@ -165,8 +165,11 @@ def updateButtons(page_adder):
     button_forward.configure(state=NORMAL)
     button_back.configure(command=lambda: back(page_adder-1))
     button_back.configure(state=NORMAL)
+'''
+def saveThisFile():
 
-
+    .save("newfile.pdf")
+    '''
 
 #create menu
 my_menu = Menu(root)
@@ -177,7 +180,7 @@ file_menu = Menu(my_menu, tearoff = False)
 my_menu.add_cascade(label="File", menu=file_menu)
 file_menu.add_command(label="Open file", command=openPdf)
 
-'''file_menu.add_command(label="Save file", command = save_file)'''
+'''file_menu.add_command(label="Save file", command = saveThisFile)'''
 
 file_menu.add_command(label="Edit", command=editTextbox)
 file_menu.add_command(label="Clear", command=clearTextBut)
