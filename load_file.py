@@ -1,12 +1,13 @@
 from tkinter import *
 from tkinter import filedialog
 import PyPDF2 #import PdfFileReader
-import fitz
+import fitz #PyMuPDF
 import os
 
 root = Tk()
 root.title('Ebook Reader')
-root.geometry("%dx%d+0+0" % (root.winfo_screenwidth(), root.winfo_screenheight()))
+root.state('zoomed')
+#root.geometry("%dx%d+0+0" % (root.winfo_screenwidth(), root.winfo_screenheight()))
 #root.attributes("-fullscreen", True)
 root.grid_columnconfigure((0,1,2,3,4,5,6), weight=1)
 root.rowconfigure(0, weight=1)
