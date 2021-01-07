@@ -6,7 +6,8 @@ import os
 
 root = Tk()
 root.title('Ebook Reader')
-root.geometry("1400x700")
+root.geometry("%dx%d+0+0" % (root.winfo_screenwidth(), root.winfo_screenheight()))
+#root.attributes("-fullscreen", True)
 root.grid_columnconfigure((0,1,2,3,4,5,6), weight=1)
 root.rowconfigure(0, weight=1)
 
@@ -22,6 +23,7 @@ label_text = StringVar()
 my_text = Text(root)
 my_text.pack(pady=10)
 my_text.grid(row=0, column=0, columnspan=7, sticky=W+E+S+N)
+my_text.config(bg="#fff5c5")
 
 
 #open pdf file
@@ -39,6 +41,7 @@ def openPdf():
             initialdir = os.getcwd(), 
             title = "Open PDF file",
             filetypes = (("pdf file", "*.pdf"), 
+                        ("Epub file", "*.epub"),
                         ("All files", "*.*"))
             )
     
