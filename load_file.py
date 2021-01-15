@@ -42,11 +42,12 @@ def openPdf():
             initialdir = os.getcwd(), 
             title = "Open PDF file",
             filetypes = (("pdf file", "*.pdf"), 
-                        ("Epub file", "*.epub"),
+                        ("epub file", "*.epub"),
+                        ("txt file", "*.txt"),
                         ("All files", "*.*"))
             )
     
-    doc = fitz.open(open_file)
+    #doc = fitz.open(open_file)
     #print ("number of pages: %i" % doc.pageCount)
     #print(doc.metadata)
     
@@ -77,6 +78,27 @@ def openPdf():
     #page number
     page_label = Label(root, textvariable=label_text)
     page_label.grid(row=2, column=3)
+
+    pass
+
+
+def openTxt():
+
+    global f
+
+    open_file = filedialog.askopenfilename(
+            initialdir = os.getcwd(), 
+            title = "Open PDF file",
+            filetypes = (("pdf file", "*.pdf"), 
+                        ("epub file", "*.epub"),
+                        ("txt file", "*.txt"),
+                        ("All files", "*.*"))
+            )
+
+    f = open(open_file)
+    my_text.insert(f)
+    
+
 
 #clear text box
 def clearTextBut():
@@ -181,6 +203,20 @@ def loadSetPage(this_page):
 
     #disable editing of textbox
     my_text.configure(state=DISABLED)
+
+'''
+def loadSetPageTxt(this_page):
+    #delete text in textbox
+    deleteTextboxContent()
+
+    #get text from specific page
+    page_content = f.loadPage(this_page)
+    page_text = page_content.getText("text")
+    my_text.insert(1.0, page_text)
+
+    #disable editing of textbox
+    my_text.configure(state=DISABLED)
+'''
 
 def updateButtons(page_adder):
     button_forward.configure(command=lambda: forward(page_adder+1))
