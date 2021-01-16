@@ -36,25 +36,34 @@ def openPdf():
     global page_label
     global label_text
     global page_number_label
+    global open_file
 
     #grab the filename of the pdf file
     open_file = filedialog.askopenfilename(
             initialdir = os.getcwd(), 
-            title = "Open PDF file",
+            title = "Open Pdf file",
             filetypes = (("pdf file", "*.pdf"), 
                         ("epub file", "*.epub"),
                         ("txt file", "*.txt"),
                         ("All files", "*.*"))
             )
     
-    doc = fitz.open(open_file)
-    #print ("number of pages: %i" % doc.pageCount)
-    #print(doc.metadata)
-    
-    number_of_pages = doc.pageCount
+    if open_file.endswith('.txt'):
+        
+        form_txt = open(open_file)
+        my_text.config(state = 'normal')
+        my_text.insert(INSERT, form_txt.read())
+        my_text.config(state = 'disable')
 
-    #get text from file and add it to textbox
-    loadSetPage(0)
+    else:
+
+        doc = fitz.open(open_file)
+        #print ("number of pages: %i" % doc.pageCount)
+        #print(doc.metadata)
+    
+        number_of_pages = doc.pageCount
+
+        loadSetPage(0)
 
     #indentation instead of .pack() which isnt working for some reason
     indentation_label = Label(text=" ")
@@ -78,26 +87,6 @@ def openPdf():
     #page number
     page_label = Label(root, textvariable=label_text)
     page_label.grid(row=2, column=3)
-
-    
-
-
-def openTxt():
-
-    global form_txt
-
-    open_txt = filedialog.askopenfilename(
-            initialdir = os.getcwd(), 
-            title = "Open Txt file",
-            filetypes = (("txt file", "*.txt")
-                       )
-            )
-
-    form_txt = open(open_txt)
-    my_text.config(state = 'normal')
-    my_text.insert(INSERT, form_txt.read())
-    my_text.config(state = 'disable')
-    
 
 
 #clear text box
@@ -221,7 +210,6 @@ root.config(menu=my_menu)
 file_menu = Menu(my_menu, tearoff = False)
 my_menu.add_cascade(label="File", menu=file_menu)
 file_menu.add_command(label="Open file", command=openPdf)
-file_menu.add_command(label="Open txt", command=openTxt)
 
 file_menu.add_command(label="Save file", command = saveThisFile)
 
