@@ -7,6 +7,7 @@ import os
 root = Tk()
 root.title('Ebook Reader')
 root.state('zoomed')
+root.iconbitmap('pixel_book_logo.ico')
 #root.geometry("%dx%d+0+0" % (root.winfo_screenwidth(), root.winfo_screenheight()))
 #root.attributes("-fullscreen", True)
 root.grid_columnconfigure((0,1,2,3,4,5,6), weight=1)
@@ -49,6 +50,8 @@ def openPdf():
             )
     
     if open_file.endswith('.txt'):
+        
+        deleteTextboxContent()
         
         form_txt = open(open_file)
         my_text.config(state = 'normal')
@@ -118,12 +121,20 @@ def saveThisFile():
                         filetypes = (("txt file", "*.txt"), 
                                     ("All files", "*.*"))
                     )
+    
     if created_file:
         saved_file = open(created_file, 'w')
-        saved_file.write(my_text.get(1.0, END))
+
+        for i in range(0,number_of_pages):
+            
+            if i == page_number_label-1:
+                saved_file.write(my_text.get(1.0, END))
+            else:
+                page_content = doc.loadPage(i)
+                page_text = page_content.getText("text")
+                saved_file.write(page_text)
 
         saved_file.close()
-
 
 
 def deleteTextboxContent():
@@ -178,7 +189,6 @@ def back(page_number):
     #subtract from page number
     page_number_label = page_number_label - 1
     updateLabel(page_number_label)
-
 
 
 def loadSetPage(this_page):
