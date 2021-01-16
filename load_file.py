@@ -47,7 +47,7 @@ def openPdf():
                         ("All files", "*.*"))
             )
     
-    #doc = fitz.open(open_file)
+    doc = fitz.open(open_file)
     #print ("number of pages: %i" % doc.pageCount)
     #print(doc.metadata)
     
@@ -79,24 +79,24 @@ def openPdf():
     page_label = Label(root, textvariable=label_text)
     page_label.grid(row=2, column=3)
 
-    pass
+    
 
 
 def openTxt():
 
-    global f
+    global form_txt
 
-    open_file = filedialog.askopenfilename(
+    open_txt = filedialog.askopenfilename(
             initialdir = os.getcwd(), 
-            title = "Open PDF file",
-            filetypes = (("pdf file", "*.pdf"), 
-                        ("epub file", "*.epub"),
-                        ("txt file", "*.txt"),
-                        ("All files", "*.*"))
+            title = "Open Txt file",
+            filetypes = (("txt file", "*.txt")
+                       )
             )
 
-    f = open(open_file)
-    my_text.insert(f)
+    form_txt = open(open_txt)
+    my_text.config(state = 'normal')
+    my_text.insert(INSERT, form_txt.read())
+    my_text.config(state = 'disable')
     
 
 
@@ -204,19 +204,6 @@ def loadSetPage(this_page):
     #disable editing of textbox
     my_text.configure(state=DISABLED)
 
-'''
-def loadSetPageTxt(this_page):
-    #delete text in textbox
-    deleteTextboxContent()
-
-    #get text from specific page
-    page_content = f.loadPage(this_page)
-    page_text = page_content.getText("text")
-    my_text.insert(1.0, page_text)
-
-    #disable editing of textbox
-    my_text.configure(state=DISABLED)
-'''
 
 def updateButtons(page_adder):
     button_forward.configure(command=lambda: forward(page_adder+1))
@@ -234,6 +221,7 @@ root.config(menu=my_menu)
 file_menu = Menu(my_menu, tearoff = False)
 my_menu.add_cascade(label="File", menu=file_menu)
 file_menu.add_command(label="Open file", command=openPdf)
+file_menu.add_command(label="Open txt", command=openTxt)
 
 file_menu.add_command(label="Save file", command = saveThisFile)
 
