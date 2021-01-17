@@ -4,3 +4,5 @@ This E-book reader works as a reader aswell as a editor (notepad). Files wanted 
 
 Libraries needed to run the .py file are: Tkinter, PyMuPDF
 Installed with ```pip install LIBRARY_NAME```
+
+Documentation in a PowerPoint prezentation and on YouTube: https://youtu.be/NUavp2oMmEI
