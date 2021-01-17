@@ -20,7 +20,7 @@ label_text = StringVar()
 number_of_pages = 1
 page_number_label = 1
 
-#Create text box
+#create text box
 my_text = Text(root)
 my_text.pack(pady=10)
 my_text.grid(row=0, column=0, columnspan=7, sticky=W+E+S+N)
@@ -28,7 +28,7 @@ my_text.config(bg="#fff5c5")
 my_text.configure(font=("Calibri", 12))
 
 
-#open pdf file7
+#open pdf file
 def openFile():
     global doc
     global number_of_pages
