@@ -1,6 +1,5 @@
 from tkinter import *
 from tkinter import filedialog
-import PyPDF2 #import PdfFileReader
 import fitz #PyMuPDF
 import os
 
@@ -52,14 +51,19 @@ def openFile():
     
     if open_file.endswith('.txt'):
         
-        deleteTextboxContent()
+        clearTextBut()
         
         form_txt = open(open_file)
         my_text.config(state = 'normal')
         my_text.insert(INSERT, form_txt.read())
         my_text.config(state = 'disable')
 
+        number_of_pages = 1
+
     else:
+        
+        clearTextBut()
+        
         doc = fitz.open(open_file)
     
         number_of_pages = doc.pageCount
@@ -80,6 +84,8 @@ def openFile():
 
     #forward, back buttons
     button_forward = Button(root, text=">>", height=2, width=10, command=lambda: forward(1))
+    if open_file.endswith('.txt'):
+        button_forward.configure(state=DISABLED)
     button_forward.grid(row=2, column=5)
 
     button_back = Button(root, text="<<", height=2, width=10, state=DISABLED)
