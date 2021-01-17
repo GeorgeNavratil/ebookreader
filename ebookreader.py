@@ -28,7 +28,7 @@ my_text.config(bg="#fff5c5")
 my_text.configure(font=("Calibri", 12))
 
 
-#open pdf file
+#open pdf file7
 def openFile():
     global doc
     global number_of_pages
